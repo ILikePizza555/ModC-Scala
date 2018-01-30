@@ -1,16 +1,25 @@
 package com.avrisaac555.modc
 
-import java.util.regex.Pattern
+sealed abstract class Token(val value: Option[String] = None)
 
-sealed abstract class Token(val pattern: Pattern, val str: String)
+case class OPEN_BRACE () extends Token()
+case class CLOSE_BRACE() extends Token()
+case class OPEN_PAREN () extends Token()
+case class CLOSE_PAREN() extends Token()
+case class LINE_END   () extends Token()
+case class KEY_MODULE () extends Token()
+case class KEY_INT    () extends Token()
+case class KEY_RETURN () extends Token()
+case class IDENTIFIER (override val value: String) extends Token(Some(value))
+case class LIT_INT    (override val value: String) extends Token(Some(value))
 
-case class OPEN_BRACE (override val str: String) extends Token(new Pattern("{"), str)
-case class CLOSE_BRACE(override val str: String) extends Token(new Pattern("}"), str)
-case class OPEN_PAREN (override val str: String) extends Token(new Pattern("\\("), str)
-case class CLOSE_PAREN(override val str: String) extends Token(new Pattern("\\)"), str)
-case class LINE_END   (override val str: String) extends Token(new Pattern(";"), str)
-case class KEY_MODULE (override val str: String) extends Token(new Pattern("module"), str)
-case class KEY_INT    (override val str: String) extends Token(new Pattern("int"), str)
-case class KEY_RETURN (override val str: String) extends Token(new Pattern("return"), str)
-case class IDENTIFIER (override val str: String) extends Token(new Pattern("[a-zA-Z]\\w*"), str)
-case class LIT_INT    (override val str: String) extends Token(new Pattern("[0-9]+"), str)
+object Token {
+  /**
+    * Maps a string containing a single token to a token object
+    * @param string
+    * @return
+    */
+  def TokenMap(string: String): Token = string match {
+    
+  }
+}

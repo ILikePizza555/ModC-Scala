@@ -1,7 +1,6 @@
 package com.avrisaac555.modc
 
 import scala.collection.immutable.ListMap
-import scala.collection.immutable.Stream.Empty
 import scala.util.matching.Regex
 
 sealed abstract class Token(val value: Option[String])
@@ -19,16 +18,16 @@ case class LIT_INT    (override val value: Option[String]) extends Token(value)
 
 object Token {
   val TokenMap: Map[Regex, Option[String] => Token] = ListMap(
-    "{".r               -> OPEN_BRACE,
-    "}".r               -> CLOSE_BRACE,
-    "\\(".r             -> OPEN_PAREN,
-    "\\)".r             -> CLOSE_PAREN,
-    ";".r               -> LINE_END,
-    "module".r          -> KEY_MODULE,
-    "int".r             -> KEY_INT,
-    "return".r          -> KEY_RETURN,
-    "([a-zA-Z]\\w*)".r  -> IDENTIFIER,
-    "([0-9]+)".r        -> LIT_INT
+    "\\{".r               -> OPEN_BRACE,
+    "\\}".r               -> CLOSE_BRACE,
+    "\\(".r               -> OPEN_PAREN,
+    "\\)".r               -> CLOSE_PAREN,
+    ";".r                 -> LINE_END,
+    "module".r            -> KEY_MODULE,
+    "int".r               -> KEY_INT,
+    "return".r            -> KEY_RETURN,
+    "([a-zA-Z]\\w*)".r    -> IDENTIFIER,
+    "([0-9]+)".r          -> LIT_INT
   )
 
   def tokenizePartial(s: String): PartialFunction[(Regex, Option[String] => Token), (Token, String)] = {

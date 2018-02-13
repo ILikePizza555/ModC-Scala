@@ -10,7 +10,7 @@ import com.avrisaac555.modc._
 sealed class FunctionGroup(name: String, tokens: List[Token])
 
 object FunctionGroup {
-    def fromTokens(list: List[Token]) = list match {
+    def fromTokens(list: List[Token]): (FunctionGroup, List[Token]) = list match {
         case KEY_INT(_) :: IDENTIFIER(Some(s)) :: OPEN_PAREN(_) :: CLOSE_PAREN(_) :: OPEN_BRACE(_) :: xs =>
             def switch(l: List[Token]): (List[Token], List[Token]) = {
                 val (a, b) = l span (t => !t.isInstanceOf[OPEN_PAREN] & !t.isInstanceOf[CLOSE_PAREN])
@@ -24,6 +24,6 @@ object FunctionGroup {
             }
 
             val (group, ex) = switch(xs)
-            (FunctionGroup(s, group), ex)
+            (new FunctionGroup(s, group), ex)
     }
 }

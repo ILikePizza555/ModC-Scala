@@ -15,7 +15,7 @@ object Utils {
       * @tparam A
       * @return
       */
-    implicit def switchTake[A](l: List[A], p1: A => Boolean, p2: A => Boolean): (List[A], List[A]) = {
+    def switchTake[A](l: List[A], p1: A => Boolean, p2: A => Boolean): (List[A], List[A]) = {
         val (a, ax) = l span pAnd(p1, p2)
 
         ax match {

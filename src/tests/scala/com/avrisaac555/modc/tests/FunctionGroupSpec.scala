@@ -19,9 +19,11 @@ class FunctionGroupSpec extends FlatSpec with Matchers {
 
         val expectedList = KEY_RETURN(None)::LIT_INT(Some("23457"))::IDENTIFIER(Some("TestID"))::Nil
 
-        val actual = FunctionGroup.fromTokens(t)
+        val (actualFG, actualExcess) = FunctionGroup.fromTokens(t)
 
-        actual should be (expectedList, Nil)
+        actualFG.name shouldBe "test"
+        actualFG.tokens shouldEqual expectedList
+        actualExcess shouldBe Nil
     }
 
     it should "return (list, list)" in {
@@ -40,7 +42,10 @@ class FunctionGroupSpec extends FlatSpec with Matchers {
         val expectedList = KEY_RETURN(None)::LIT_INT(Some("23457"))::IDENTIFIER(Some("TestID"))::Nil
         val excessList = IDENTIFIER(Some("This should be excess"))::Nil
 
-        val actual = FunctionGroup.fromTokens(t)
-        actual should be (expectedList, excessList)
+        val (actualFG, actualExcess) = FunctionGroup.fromTokens(t)
+
+        actualFG.name shouldEqual "test"
+        actualFG.tokens shouldEqual expectedList
+        actualExcess shouldEqual excessList
     }
 }
